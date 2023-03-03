@@ -1,0 +1,30 @@
+diff --git a/WWW/Library/Implementation/www_tcp.h b/WWW/Library/Implementation/www_tcp.h
+index 8a081a5..6eb3691 100644
+--- a/WWW/Library/Implementation/www_tcp.h
++++ b/WWW/Library/Implementation/www_tcp.h
+@@ -82,6 +82,12 @@ Default values
+ #undef HAVE_SYS_FILIO_H
+ #endif /* _MSC_VER */
+ 
++#if defined(__MVS__)
++#undef HAVE_DIRENT_H
++#define HAVE_DIRENT_H
++#undef HAVE_SYS_FILIO_H
++#endif /* __MVS__ */
++
+ #ifdef HAVE_DIRENT_H
+ # include <dirent.h>
+ # define D_NAMLEN(dirent) strlen((dirent)->d_name)
+diff --git a/src/LYMainLoop.c b/src/LYMainLoop.c
+index 0a46ce1..4402dca 100644
+--- a/src/LYMainLoop.c
++++ b/src/LYMainLoop.c
+@@ -550,7 +550,7 @@ static void set_curdoc_link_by_mouse(int nextlink)
+ {
+     if (set_curdoc_link(nextlink)) {
+ 	LYhighlight(TRUE, nextlink, prev_target->str);
+-	LYmsec_delay(20);
++	//LYmsec_delay(20);
+     }
+ }
+ #else

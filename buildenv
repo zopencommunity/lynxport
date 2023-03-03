@@ -1,0 +1,39 @@
+export ZOPEN_TARBALL_URL="https://invisible-mirror.net/archives/lynx/tarballs/lynx2.8.9rel.1.tar.gz"
+export ZOPEN_TARBALL_DEPS="make ncurses zoslib openssl"
+export ZOPEN_TYPE="TARBALL"
+export ZOPEN_EXTRA_CFLAGS="-I\$ZOSLIB_HOME/include -I\$NCURSES_HOME/include/ncurses -I${ZOPEN_ROOT}/lynx2.8.9rel.1"
+export ZOPEN_MAKE_OPTS="-j$NUM_JOBS"
+export ZOPEN_MAKE_MINIMAL="yes"
+
+export ZOPEN_EXTRA_CONFIGURE_OPTS="--with-ssl=yes --without-pkg-config"
+
+zopen_check_results()
+{
+  dir="$1"
+  pfx="$2"
+  chk="$1/$2_check.log"
+
+  # Echo the following information to gauge build health
+  echo "actualFailures:0"
+  echo "totalTests:1"
+  echo "expectedFailures:0"
+}
+
+zopen_append_to_env()
+{
+cat <<EOF
+if [ "\${SSL_CERT_FILE}x" = "x" ]; then
+  if [ -f "\$PWD/cacert.pem" ]; then
+    export SSL_CERT_FILE="\$PWD/cacert.pem"
+  else
+    echo "Warning: you need to set SSL_CERT_FILE to a pem file if you want to use lynx with SSH" >&2
+  fi
+fi
+EOF
+}
+
+zopen_post_install()
+{
+  # Install a cacert.pem to be used (optionally) by the customer
+  zopen update-cacert -f $1
+}
