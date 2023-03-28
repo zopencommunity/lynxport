@@ -1,15 +1,15 @@
 VERSION="2.8.9"
 export ZOPEN_TARBALL_URL="https://invisible-mirror.net/archives/lynx/tarballs/lynx${VERSION}rel.1.tar.gz"
-export ZOPEN_TARBALL_DEPS="make ncurses zoslib openssl"
+export ZOPEN_TARBALL_DEPS="make ncurses zoslib openssl zlib"
 export ZOPEN_TYPE="TARBALL"
-export ZOPEN_EXTRA_CFLAGS="-I\$ZOSLIB_HOME/include -I\$NCURSES_HOME/include/ncurses -I${ZOPEN_ROOT}/lynx${VERSION}rel.1"
+export ZOPEN_EXTRA_CFLAGS="-I\$ZOSLIB_HOME/include -I\$NCURSES_HOME/include/ncurses -I${ZOPEN_ROOT}/lynx${VERSION}rel.1 -I\${ZLIB_HOME}/include"
 export ZOPEN_MAKE_OPTS="-j$NUM_JOBS"
 export ZOPEN_NAME="lynx-${VERSION}"
 export ZOPEN_MAKE_MINIMAL="yes"
 export ZOPEN_CHECK="./lynx"
 export ZOPEN_CHECK_OPTS="--version"
 
-export ZOPEN_EXTRA_CONFIGURE_OPTS="--with-ssl=yes --without-pkg-config"
+export ZOPEN_EXTRA_CONFIGURE_OPTS="--with-ssl=yes --without-pkg-config --with-zlib=\${ZLIB_HOME}"
 
 zopen_check_results()
 {
@@ -34,6 +34,8 @@ if [ "\${SSL_CERT_FILE}x" = "x" ]; then
     echo "Warning: you need to set SSL_CERT_FILE to a pem file if you want to use lynx with SSH" >&2
   fi
 fi
+export LYNX_LSS=\$PWD/etc/lynx.lss
+export LYNX_CFG=\$PWD/etc/lynx.cfg
 EOF
 }
 
