@@ -39,6 +39,15 @@ export LYNX_CFG=\$PWD/etc/lynx.cfg
 EOF
 }
 
+
+zopen_append_to_zoslib_env() {
+cat <<EOF
+SSL_CERT_FILE|set|PROJECT_ROOT/cacert.pem
+LYNX_LSS|set|PROJECT_ROOT/etc/lynx.lss
+LYNX_CFG|set|PROJECT_ROOT/etc/lynx.cfg
+EOF
+}
+
 zopen_post_install()
 {
   # Install a cacert.pem to be used (optionally) by the customer
