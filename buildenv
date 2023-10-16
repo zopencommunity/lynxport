@@ -45,6 +45,7 @@ cat <<EOF
 SSL_CERT_FILE|set|PROJECT_ROOT/cacert.pem
 LYNX_LSS|set|PROJECT_ROOT/etc/lynx.lss
 LYNX_CFG|set|PROJECT_ROOT/etc/lynx.cfg
+ASCII_TERMINFO|set|PROJECT_ROOT/../../ncurses/ncurses/share/terminfo/
 EOF
 }
 
