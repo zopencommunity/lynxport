@@ -1,10 +1,18 @@
-VERSION="2.8.9"
-export ZOPEN_TARBALL_URL="https://invisible-mirror.net/archives/lynx/tarballs/lynx${VERSION}rel.1.tar.gz"
-export ZOPEN_TARBALL_DEPS="make ncurses zoslib openssl zlib"
-export ZOPEN_TYPE="TARBALL"
-export ZOPEN_EXTRA_CFLAGS="-I\$ZOSLIB_HOME/include -I\$NCURSES_HOME/include/ncurses -I${ZOPEN_ROOT}/lynx${VERSION}rel.1 -I\${ZLIB_HOME}/include"
+# bump: lynx-version /LYNX_VERSION="(.*)"/ https://invisible-mirror.net/archives/lynx/tarballs/|re:/lynx([\d.]+)rel.(\d).tar.gz/$1/|semver:*
+LYNX_VERSION="2.8.9"
+LYNX_VERSPOST="rel.1"
+
+# in case the project releases again, this will be handy:
+# bomp pipeline -v 'https://invisible-mirror.net/archives/lynx/tarballs/|re:/lynx([\d.]+)rel.(\d).tar.gz/$1.$2/|sort'
+
+export ZOPEN_BUILD_LINE="STABLE"
+export ZOPEN_STABLE_URL="https://invisible-mirror.net/archives/lynx/tarballs/lynx${VERSION}rel.1.tar.gz"
+export ZOPEN_STABLE_URL="https://invisible-mirror.net/archives/lynx/tarballs/lynx${LYNX_VERSION}${LYNX_VERSPOST}.tar.gz"
+export ZOPEN_STABLE_DEPS="make ncurses zoslib openssl zlib"
+
+export ZOPEN_EXTRA_CFLAGS="-I\$ZOSLIB_HOME/include -I\$NCURSES_HOME/include/ncurses -I${ZOPEN_ROOT}/lynx${LYNX_VERSION}${LYNX_VERSPOST} -I\${ZLIB_HOME}/include"
 export ZOPEN_MAKE_OPTS="-j$NUM_JOBS"
-export ZOPEN_NAME="lynx-${VERSION}"
+export ZOPEN_NAME="lynx-${LYNX_VERSION}"
 export ZOPEN_MAKE_MINIMAL="yes"
 export ZOPEN_CHECK="./lynx"
 export ZOPEN_CHECK_OPTS="--version"
@@ -17,7 +25,7 @@ zopen_check_results()
   pfx="$2"
   chk="$1/$2_check.log"
 
-  grep -q "${VERSION}" $chk
+  grep -q "${LYNX_VERSION}" $chk
   failures=$?
   echo "actualFailures:$failures"
   echo "totalTests:1"
