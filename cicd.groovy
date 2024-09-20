@@ -7,9 +7,9 @@ node('linux')
                         branches: [[name: '*/main']],
                         doGenerateSubmoduleConfigurations: false,
                         extensions: [],
-                        userRemoteConfigs: [[url: "https://github.com/ZOSOpenTools/lynxport.git"]]])
+                        userRemoteConfigs: [[url: "https://github.com/zopencommunity/lynxport.git"]]])
         }
   stage('Build') {
-    build job: 'Port-Pipeline', parameters: [string(name: 'PORT_GITHUB_REPO', value: 'https://github.com/ZOSOpenTools/lynxport.git'), string(name: 'PORT_DESCRIPTION', value: 'A command browser' )]
+    build job: 'Port-Pipeline', parameters: [string(name: 'PORT_GITHUB_REPO', value: 'https://github.com/zopencommunity/lynxport.git'), string(name: 'PORT_DESCRIPTION', value: 'A command browser' )]
   }
 }
