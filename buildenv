@@ -2,6 +2,7 @@
 LYNX_VERSION="2.8.9"
 LYNX_VERSPOST="rel.1"
 
+export ZOPEN_CATEGORIES="networking"
 # in case the project releases again, this will be handy:
 # bomp pipeline -v 'https://invisible-mirror.net/archives/lynx/tarballs/|re:/lynx([\d.]+)rel.(\d).tar.gz/$1.$2/|sort'
 
